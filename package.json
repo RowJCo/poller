@@ -1,0 +1,13 @@
+{
+  "name": "poller",
+  "version": "1.0.0",
+  "description": "A webapp for polling opinions.",
+  "scripts": {
+    "build": "cd client && npm install && npm run build && cd .. && cd server && npm install",
+    "start": "cd server && npm run start",
+    "dev": "cd server && npm run dev"
+  },
+  "author": "Rowen Collier",
+  "license": "MIT"
+}
+
