@@ -2,6 +2,7 @@
 import { connectEditDb, connectReadDb, closeDb } from "../config/db.js";
 
 const createPoll = (req, res) => {
+    console.log("creating poll");
     //connect to the database
     let db = connectEditDb();
     //get the poll data from the request
@@ -22,6 +23,7 @@ const createPoll = (req, res) => {
 };
 
 const deletePoll = (req, res) => {
+    console.log("deleting poll");
     //connect to the database
     let db = connectEditDb();
     //get the poll id from the request
@@ -38,6 +40,7 @@ const deletePoll = (req, res) => {
 };
 
 const incrementPollYes = (req, res) => {
+    console.log("incrementing yes");
     //connect to the database
     let db = connectEditDb();
     //get the poll id from the request
@@ -71,6 +74,7 @@ const incrementPollYes = (req, res) => {
 };
 
 const incrementPollNo = (req, res) => {
+    console.log("incrementing no");
     //connect to the database
     let db = connectEditDb();
     //get the poll id from the request
@@ -102,6 +106,7 @@ const incrementPollNo = (req, res) => {
 };
 
 const getPollsById = (req, res) => {
+    console.log("getting polls by user_id");
     //connect to the database
     let db = connectReadDb();
     //get the user id from the request
@@ -120,6 +125,7 @@ const getPollsById = (req, res) => {
 };
 
 const getPoll = (req, res) => {
+    console.log("getting poll by poll_id");
     //connect to the database
     let db = connectReadDb();
     //get the poll id from the request

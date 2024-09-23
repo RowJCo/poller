@@ -3,15 +3,16 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 // Load custom modules
-import { connectEditDb, closeDb } from "../config/db.js";
+import { connectEditDb, connectReadDb, closeDb } from "../config/db.js";
 
 const createUser = (req, res) => {
+    console.log("creating user");
     //connect to the database
     let db = connectEditDb();
     //get the username and password from the request
     let { username, password } = req.body;
     //hash the password
-    hashedPassword = bcrypt.hashSync(password, 10);
+    let hashedPassword = bcrypt.hashSync(password, 10);
     //check if the username is taken
     db.get("SELECT * FROM users WHERE username = ?", [username], (err, row) => {
         if (err) {
@@ -35,6 +36,7 @@ const createUser = (req, res) => {
 };
 
 const deleteUser = (req, res) => {
+    console.log("deleting user");
     //connect to the database
     let db = connectEditDb();
     //get the user id from the request
@@ -51,6 +53,7 @@ const deleteUser = (req, res) => {
 };
 
 const authenticateUser = (req, res) => {
+    console.log("authenticating user");
     //connect to the database
     let db = connectReadDb();
     //get the username and password from the request
@@ -84,6 +87,7 @@ const authenticateUser = (req, res) => {
 };
 
 const deauthenticateUser = (req, res) => {
+    console.log("deauthenticating user");
     try {
         res.clearCookie("Authorization");
         res.status(200).send("User deauthenticated");
