@@ -1,3 +1,4 @@
+// Load node modules
 import sqlite3 from 'sqlite3';
 
 const createDb = () => {
@@ -11,8 +12,8 @@ const createDb = () => {
         });
         db.serialize(() => {
             //create two tables on for users and one for polls each poll has a user_id as a foreign key
-            db.run('CREATE TABLE users (id INTEGER PRIMARY KEY, username TEXT, password TEXT)');
-            db.run('CREATE TABLE polls (id INTEGER PRIMARY KEY, question TEXT, user_id INTEGER, FOREIGN KEY(user_id) REFERENCES users(id))');
+            db.run('CREATE TABLE users (id INTEGER PRIMARY KEY, username TEXT UNIQUE NOT NULL, password TEXT NOT NULL)');
+            db.run("CREATE TABLE polls (id INTEGER PRIMARY KEY, question TEXT NOT NULL, yes INTEGER NULL, no INEGER NULL , created_on TEXT NOT NULL DEFAULT CURRENT_DATE, user_id INTEGER, FOREIGN KEY(user_id) REFERENCES users(id))");
             //create user who will represent all the polls that are not associated with a user
             db.run('INSERT INTO users (username, password) VALUES ("guest", "guest")');
         });
