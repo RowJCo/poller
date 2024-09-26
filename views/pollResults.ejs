@@ -38,7 +38,7 @@
         labels: ['Yes', 'No'],
         datasets: [{
           label: 'Poll Results',
-          data: [<%= poll.yes_votes %>, <%= poll.no_votes %>],
+          data: [<%- poll.yes_votes %>, <%- poll.no_votes %>],
           backgroundColor: ['#4CAF50', '#F44336'],
           hoverOffset: 4
         }]
