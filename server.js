@@ -3,8 +3,12 @@ if (process.env.NODE_ENV !== "production") {
 }
 const express = require("express");
 const session = require("express-session");
+const RateLimit = require('express-rate-limit');
 const bcrypt = require("bcrypt");
 const { createDb, connectEditDb, connectReadDb, closeDb } = require("./database");
+
+
+
 
 const app = express();
 app.set("view engine", "ejs");
@@ -15,6 +19,13 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
+
+const limiter = RateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // max 100 requests per windowMs
+  });
+  
+app.use(limiter);
 
 // Middleware to check if user is authenticated
 function isAuthenticated(req, res, next) {
