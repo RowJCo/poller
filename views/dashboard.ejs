@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Poller</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="flex flex-col min-h-screen">
+  <header class="p-4 border-b border-gray-300">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <h1 class="text-4xl px-4 text-gray-800 font-bold">Poller</h1>
+      <div>
+        <a href="/createpoll" class="text-gray-800 text-2xl px-4 hover:underline ml-4">Create Poll</a>
+        <a href="/mypolls" class="text-gray-800 text-2xl px-4 hover:underline ml-4">View Polls</a>
+        <a href="/logout" class="text-gray-800 text-2xl px-4 hover:underline ml-4">Logout</a>
+      </div>
+    </div>
+  </header>
+  <main class="flex-grow p-4">
+    <div class="text-center">
+      <h1 class="text-2xl font-bold">Dashboard</h1>
+      <p class="mt-4">Welcome, <%= username %>!</p>
+    </div>
+  </main>
+  <footer class="text-gray-800 p-4 border-t border-gray-300 text-center">
+    <p class="text-gray-800">Source code available at <a href="https://github.com/RowJCo/poller" class="text-blue-400 hover:underline">GitHub</a></p>
+  </footer>
+</body>
+</html>
