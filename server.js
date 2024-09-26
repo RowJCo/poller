@@ -7,9 +7,6 @@ const RateLimit = require('express-rate-limit');
 const bcrypt = require("bcrypt");
 const { createDb, connectEditDb, connectReadDb, closeDb } = require("./database");
 
-
-
-
 const app = express();
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
@@ -94,7 +91,7 @@ app.post('/login', async (req, res) => {
 
         req.session.userId = user.id;
         closeDb(db);
-        res.redirect('/mypolls');
+        res.redirect('/dashboard');
     });
 });
 
