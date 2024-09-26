@@ -1,18 +1,35 @@
-// Load node modules
-import sqlite3 from "sqlite3";
+const sqlite3 = require('sqlite3').verbose();
 
 const createDb = () => {
-    //create a new database
+    //create the database or open it if it already exists
     let db = new sqlite3.Database("./poller.sqlite", sqlite3.OPEN_CREATE | sqlite3.OPEN_READWRITE, (err) => {
         if (err) {
             console.error(err.message);
         }
         console.log("Connected to the database.");
     });
+    //create the users table if it doesn't exist
     db.serialize(() => {
-        //create two tables on for users and one for polls each poll has a user_id as a foreign key
-        db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT UNIQUE NOT NULL, password TEXT NOT NULL)");
-        db.run("CREATE TABLE IF NOT EXISTS polls (id INTEGER PRIMARY KEY, question TEXT NOT NULL, yes INTEGER NULL, no INTEGER NULL , created_on TEXT NOT NULL DEFAULT CURRENT_DATE, user_id INTEGER, FOREIGN KEY(user_id) REFERENCES users(id))");
+        db.run(`CREATE TABLE IF NOT EXISTS users (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          username TEXT UNIQUE,
+          password TEXT
+        )`);
+    });
+    console.log("Created the users table.");
+    //create the polls table if it doesn't exist
+    db.serialize(() => {
+        db.run(`CREATE TABLE IF NOT EXISTS polls (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            question TEXT,
+            yes_votes INTEGER NULL,
+            no_votes INTEGER NULL,
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            expired BOOLEAN DEFAULT FALSE,
+            expired_at TEXT DEFAULT NULL,
+            user_id INTEGER,
+            FOREIGN KEY(user_id) REFERENCES users(id)
+        )`);
     });
     //close the database connection
     db.close((err) => {
@@ -21,7 +38,7 @@ const createDb = () => {
         }
         console.log("Closed the database connection.");
     });
-};
+}
 
 const connectEditDb = () => {
     //open the database in readwrite mode
@@ -55,5 +72,4 @@ const closeDb = (db) => {
     });
 };
 
-
-export { createDb, connectEditDb, connectReadDb, closeDb };
+module.exports = { createDb, connectEditDb, connectReadDb, closeDb };
