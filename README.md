@@ -2,7 +2,7 @@
 
 ### What is it?
 
-Poller is a polling web app made with Express and EJS. You can check find it hosted here: , it is hosted on a free plan so can sometimes be a bit slow to load.
+Poller is a polling web app made with Express and EJS. You can check find it hosted here: https://poller-rgmb.onrender.com/ , it is hosted on a free plan so can sometimes be a bit slow to load.
 
 ### How to run it for yourself?
 
