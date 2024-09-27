@@ -31,11 +31,13 @@
     <p class="text-gray-800">Source code available at <a href="https://github.com/RowJCo/poller" class="text-blue-400 hover:underline">GitHub</a></p>
   </footer>
   <script>
+    const yesVotes = <%= poll.yes_votes %>;
+    const noVotes = <%= poll.no_votes %>;
     const ctx = document.getElementById('pollResultsChart').getContext('2d');
     const pollResultsChart = new Chart(ctx, {
       type: 'pie',
       data: {
-        labels: ['Yes', 'No'],
+        labels: [`Yes - (${yesVotes})`, `No - (${noVotes})`],
         datasets: [{
           label: 'Poll Results',
           data: [<%- poll.yes_votes %>, <%- poll.no_votes %>],

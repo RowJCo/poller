@@ -20,7 +20,7 @@ app.use(session({
 const limiter = RateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100, // max 100 requests per windowMs
-  });
+});
   
 app.use(limiter);
 
@@ -220,6 +220,20 @@ app.post("/vote/:id", async (req, res) => {
     const pollId = req.params.id;
     const vote = req.body.vote;
     const db = await connectEditDb();
+    // Validate the vote
+    if (vote !== "yes" && vote !== "no") {
+        // Fetch the poll data to re-render the form with the error message
+        db.get("SELECT * FROM polls WHERE id = ?", [pollId], (err, poll) => {
+            if (err) {
+                console.error(err.message);
+                closeDb(db);
+                return res.status(500).send("Error fetching poll: " + err.message);
+            }
+            closeDb(db);
+            res.render("poll", { poll, error: "You must select either 'yes' or 'no'." });
+        });
+        return;
+    }
     db.run(`UPDATE polls SET ${vote}_votes = COALESCE(${vote}_votes, 0) + 1 WHERE id = ?`, [pollId], function(err) {
         if (err) {
             console.error(err.message);
