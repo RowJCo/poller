@@ -7,7 +7,6 @@ const express = require("express");
 const session = require("express-session");
 const rateLimiter = require("./middleware/rateLimiter");
 const bcrypt = require("bcrypt");
-const lusca = require("lusca");
 const {
   createDb,
   connectEditDb,
@@ -33,6 +32,8 @@ const app = express();
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+// Middleware
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -45,7 +46,6 @@ app.use(
     },
   })
 );
-app.use(lusca.csrf());
 app.use(rateLimiter);
 
 // Routes
