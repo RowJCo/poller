@@ -1,45 +1,82 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Poller</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="flex flex-col min-h-screen">
-  <header class="p-4 border-b border-gray-300">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <h1 class="text-4xl px-4 text-gray-800 font-bold">Poller</h1>
-      <div>
-        <a href="/" class="text-gray-800 text-2xl px-4 hover:underline ml-4">Home</a>
-        <a href="/register" class="text-gray-800 text-2xl px-4 hover:underline ml-4">Register</a>
-        <a href="/login" class="text-gray-800 text-2xl px-4 hover:underline ml-4">Login</a>
+<html style="font-family: Georgia, serif">
+  <head>
+    <title>Poller</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <header class="p-4 border-b border-gray-300">
+      <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <h1 class="text-4xl px-4 text-gray-800 font-bold">Poller</h1>
+        <div>
+          <a href="/" class="text-gray-800 text-2xl px-4 hover:underline ml-4"
+            >Home</a
+          >
+          <a
+            href="/register"
+            class="text-gray-800 text-2xl px-4 hover:underline ml-4"
+            >Register</a
+          >
+          <a
+            href="/login"
+            class="text-gray-800 text-2xl px-4 hover:underline ml-4"
+            >Login</a
+          >
+        </div>
       </div>
-    </div>
-  </header>
-  <main class="flex-grow p-4 ">
-    <div class="flex flex-col items-center">
-      <h2 class="text-2xl font-bold mb-4 text-center"><%= poll.question %></h2>
-      <form action="/vote/<%= poll.id %>" method="POST" class="mb-4 w-full max-w-xs">
-        <div class="flex flex-col items-center mb-4">
-          <div class="flex items-center mb-2">
-            <input type="radio" id="yes" name="vote" value="yes" class="mr-2">
-            <label for="yes" class="mr-4">Yes</label>
+    </header>
+    <main class="flex-grow p-4">
+      <div class="flex flex-col items-center">
+        <h2 class="text-2xl font-bold mb-4 text-center">
+          <%= poll.question %>
+        </h2>
+        <form
+          action="/vote/<%= poll.id %>"
+          method="POST"
+          class="mb-4 w-full max-w-xs"
+        >
+          <div class="flex flex-col items-center mb-4">
+            <div class="flex items-center mb-2">
+              <input
+                type="radio"
+                id="yes"
+                name="vote"
+                value="yes"
+                class="mr-2"
+              />
+              <label for="yes" class="mr-4">Yes</label>
+            </div>
+            <div class="flex items-center mb-2">
+              <input type="radio" id="no" name="vote" value="no" class="mr-2" />
+              <label for="no">No</label>
+            </div>
           </div>
-          <div class="flex items-center mb-2">
-            <input type="radio" id="no" name="vote" value="no" class="mr-2">
-            <label for="no">No</label>
+          <div class="flex justify-center">
+            <button
+              type="submit"
+              class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Vote
+            </button>
           </div>
-        </div>
-        <div class="flex justify-center">
-          <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Vote</button>
-        </div>
-      </form>
-      <% if (typeof error !== 'undefined') { %>
+        </form>
+        <% if (typeof error !== 'undefined') { %>
         <p class="text-red-500 font-bold mb-4"><%= error %></p>
-      <% } %>
-    </div>
-  </main>
-  <footer class="text-gray-800 p-4 border-t border-gray-300 text-center">
-    <p class="text-gray-800">Source code available at <a href="https://github.com/RowJCo/poller" class="text-blue-400 hover:underline">GitHub</a></p>
-  </footer>
-</body>
+        <% } %>
+      </div>
+    </main>
+    <footer class="text-gray-800 p-4 border-t border-gray-300 text-center">
+      <p class="text-gray-800">
+        Source code available at
+        <a
+          href="https://github.com/RowJCo/poller"
+          class="text-blue-400 hover:underline"
+          >GitHub</a
+        >
+      </p>
+    </footer>
+  </body>
 </html>

@@ -1,75 +1,98 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Poller</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body class="flex flex-col min-h-screen">
-  <header class="p-4 border-b border-gray-300">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <h1 class="text-4xl px-4 text-gray-800 font-bold">Poller</h1>
-      <div>
-        <a href="/" class="text-gray-800 text-2xl px-4 hover:underline ml-4">Home</a>
-        <a href="/register" class="text-gray-800 text-2xl px-4 hover:underline ml-4">Register</a>
-        <a href="/login" class="text-gray-800 text-2xl px-4 hover:underline ml-4">Login</a>
+<html style="font-family: Georgia, serif">
+  <head>
+    <title>Poller</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <header class="p-4 border-b border-gray-300">
+      <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <h1 class="text-4xl px-4 text-gray-800 font-bold">Poller</h1>
+        <div>
+          <a href="/" class="text-gray-800 text-2xl px-4 hover:underline ml-4"
+            >Home</a
+          >
+          <a
+            href="/register"
+            class="text-gray-800 text-2xl px-4 hover:underline ml-4"
+            >Register</a
+          >
+          <a
+            href="/login"
+            class="text-gray-800 text-2xl px-4 hover:underline ml-4"
+            >Login</a
+          >
+        </div>
       </div>
-    </div>
-  </header>
-  <main class="flex-grow p-4">
-    <div class="max-w-7xl mx-auto">
-      <h2 class="text-2xl font-bold mb-4"><%= poll.question %></h2>
-      <% if (poll.expired) { %>
+    </header>
+    <main class="flex-grow p-4">
+      <div class="max-w-7xl mx-auto">
+        <h2 class="text-2xl font-bold mb-4"><%= poll.question %></h2>
+        <% if (poll.expired) { %>
         <p class="text-red-500 font-bold mb-4">This poll has expired.</p>
-      <% } %>
-      <div class="flex justify-center">
-        <canvas id="pollResultsChart" style="width: 200px; height: 200px;"></canvas>
+        <% } %>
+        <div class="flex justify-center">
+          <canvas
+            id="pollResultsChart"
+            style="width: 200px; height: 200px"
+          ></canvas>
+        </div>
       </div>
-    </div>
-  </main>
-  <footer class="text-gray-800 p-4 border-t border-gray-300 text-center">
-    <p class="text-gray-800">Source code available at <a href="https://github.com/RowJCo/poller" class="text-blue-400 hover:underline">GitHub</a></p>
-  </footer>
-  <script>
-    const yesVotes = <%= poll.yes_votes %>;
-    const noVotes = <%= poll.no_votes %>;
-    const ctx = document.getElementById('pollResultsChart').getContext('2d');
-    const pollResultsChart = new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: [`Yes - (${yesVotes})`, `No - (${noVotes})`],
-        datasets: [{
-          label: 'Poll Results',
-          data: [<%- poll.yes_votes %>, <%- poll.no_votes %>],
-          backgroundColor: ['#4CAF50', '#F44336'],
-          hoverOffset: 4
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        aspectRatio: 1,
-        plugins: {
-          legend: {
-            position: 'top',
-          },
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                let label = context.label || '';
-                if (label) {
-                  label += ': ';
+    </main>
+    <footer class="text-gray-800 p-4 border-t border-gray-300 text-center">
+      <p class="text-gray-800">
+        Source code available at
+        <a
+          href="https://github.com/RowJCo/poller"
+          class="text-blue-400 hover:underline"
+          >GitHub</a
+        >
+      </p>
+    </footer>
+    <script>
+      const yesVotes = <%= poll.yes_votes %>;
+      const noVotes = <%= poll.no_votes %>;
+      const ctx = document.getElementById('pollResultsChart').getContext('2d');
+      const pollResultsChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: [`Yes - (${yesVotes})`, `No - (${noVotes})`],
+          datasets: [{
+            label: 'Poll Results',
+            data: [<%- poll.yes_votes %>, <%- poll.no_votes %>],
+            backgroundColor: ['#4CAF50', '#F44336'],
+            hoverOffset: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          aspectRatio: 1,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  let label = context.label || '';
+                  if (label) {
+                    label += ': ';
+                  }
+                  if (context.parsed !== null) {
+                    label += context.parsed;
+                  }
+                  return label;
                 }
-                if (context.parsed !== null) {
-                  label += context.parsed;
-                }
-                return label;
               }
             }
           }
         }
-      }
-    });
-  </script>
-</body>
+      });
+    </script>
+  </body>
 </html>
