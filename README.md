@@ -11,4 +11,5 @@ To run the web app yourself you need to:
 * Setup a .env file in the root folder, including:
   * `PORT`: the port to host the web app on
   * `SESSION_SECRET`: a random string of numbers , letters and characters.
+  * `NODE_ENV`: describes whether the web app is in development or production.
 * Open up a terminal and run `npm run start` and the web app will be available on whatever port you have hosted it
