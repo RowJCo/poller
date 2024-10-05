@@ -6,7 +6,6 @@ if (process.env.NODE_ENV !== "production") {
 const express = require("express");
 const session = require("express-session");
 const rateLimiter = require("./middleware/rateLimiter");
-const bcrypt = require("bcrypt");
 const {
   createDb,
   connectEditDb,
@@ -42,10 +41,12 @@ app.use(
     cookie: {
       secure: true,
       httpOnly: true,
-      maxAge: 60000,
+      sameSite: "strict",
+      maxAge: 3600000,
     },
   })
 );
+
 app.use(rateLimiter);
 
 // Routes
