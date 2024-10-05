@@ -13,6 +13,25 @@ const {
   closeDb,
 } = require("./database");
 
+// Creates an instance of the Express application and configures it.
+const app = express();
+app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
+
+// Middleware
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+app.use(rateLimiter);
+
+// Routes
+
 // Imports the routes
 const indexRoute = require("./routes/indexRoute");
 const registerRoute = require("./routes/registerRoute");
@@ -26,30 +45,7 @@ const myPollsRoute = require("./routes/myPollsRoute");
 const pollRoute = require("./routes/pollRoute");
 const voteRoute = require("./routes/voteRoute");
 
-// Creates an instance of the Express application and configures it.
-const app = express();
-app.set("view engine", "ejs");
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
-
-// Middleware
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      secure: true,
-      httpOnly: true,
-      sameSite: "strict",
-      maxAge: 3600000,
-    },
-  })
-);
-
-app.use(rateLimiter);
-
-// Routes
+// Uses the routes
 app.use(indexRoute);
 app.use(registerRoute);
 app.use(loginRoute);

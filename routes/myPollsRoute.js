@@ -6,24 +6,31 @@ const isAuthenticated = require("../middleware/isAuthenticated");
 
 //GET request to /mypolls - renders the myPolls view
 router.get("/mypolls", isAuthenticated, async (req, res) => {
-  //connect to the read database
+  //connect to the database
   const db = await connectReadDb();
   //get the user id from the session
   const userId = req.session.userId;
-  //get the polls from the database
-  db.all(`SELECT * FROM polls WHERE user_id = ?`, [userId], (err, rows) => {
-    //if there is an error, close the database and send an error message
-    if (err) {
-      console.error("Error fetching polls.");
+  //verify that the user exists in the database
+  db.get("SELECT username FROM users WHERE id = ?", [userId], (err, user) => {
+    //if there is an error or the user does not exist, redirect to the login page
+    if (err || !user) {
       closeDb(db);
-      return res.status(500).send("Error fetching polls");
+      return res.redirect("/login");
     }
-    //filter the polls into active and expired
-    const activePolls = rows.filter((poll) => !poll.expired);
-    const expiredPolls = rows.filter((poll) => poll.expired);
-    //close the database and render the myPolls view
-    closeDb(db);
-    res.render("myPolls", { activePolls, expiredPolls });
+    //if there isnt select all the polls from the database where the user id matches the user id from the
+    db.all(`SELECT * FROM polls WHERE user_id = ?`, [userId], (err, rows) => {
+      //if there is an error, close the database connection and send a 500 status code
+      if (err) {
+        console.error("Error fetching polls.");
+        closeDb(db);
+        return res.status(500).send("Error fetching polls");
+      }
+      //if there isnt close the database connection and render the myPolls view with the active and expired polls
+      const activePolls = rows.filter((poll) => !poll.expired);
+      const expiredPolls = rows.filter((poll) => poll.expired);
+      closeDb(db);
+      res.render("myPolls", { activePolls, expiredPolls });
+    });
   });
 });
 
